@@ -1,0 +1,70 @@
+name: people-analytics-assignment
+x-common: &common
+  build: .
+  image: people-analytics-assignment:local
+  user: "50000:0"
+  environment: &environment
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://student:classroom@database/people_lab
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__WEBSERVER__SECRET_KEY: local-people-analytics-classroom
+    AIRFLOW__CORE__PARALLELISM: "4"
+    AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "3"
+    HR_DATABASE_URL: postgresql+psycopg2://student:classroom@database/people_lab
+    PYTHONPATH: /project
+    OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+    OPENROUTER_MODEL: ${OPENROUTER_MODEL:-}
+  volumes:
+    - .:/project
+    - ./dags:/opt/airflow/dags:ro
+    - airflow_logs:/opt/airflow/logs
+  depends_on:
+    database:
+      condition: service_healthy
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: classroom
+      POSTGRES_DB: people_lab
+    volumes:
+      - people_database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U student -d people_lab"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+  init:
+    <<: *common
+    command: >
+      bash -c 'airflow db migrate &&
+      (airflow users list --output json | python -c "import sys,json; sys.exit(0 if any(u[\"username\"] == \"student\" for u in json.load(sys.stdin)) else 1)" ||
+      airflow users create --username student --password classroom --firstname People --lastname Analytics --role Admin --email student@example.local)'
+  webserver:
+    <<: *common
+    command: webserver
+    ports: ["127.0.0.1:8090:8080"]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, curl, --fail, http://localhost:8080/health]
+      interval: 15s
+      timeout: 10s
+      retries: 15
+  scheduler:
+    <<: *common
+    command: scheduler
+    depends_on:
+      init:
+        condition: service_completed_successfully
+  dashboard:
+    <<: *common
+    entrypoint: [python, -m, streamlit, run, /project/app.py]
+    command: [--server.address=0.0.0.0, --server.port=8501, --browser.gatherUsageStats=false]
+    ports: ["127.0.0.1:8502:8501"]
+volumes:
+  people_database:
+  airflow_logs:

@@ -1,0 +1,124 @@
+{
+  "quality": {
+    "group_isolation": true,
+    "excluded_predictors": [
+      "EmployeeID",
+      "profile_group",
+      "attrition",
+      "Age",
+      "Gender",
+      "MaritalStatus"
+    ],
+    "split_rows": {
+      "train": 2646,
+      "validation": 882,
+      "test": 882
+    },
+    "training_attrition_share": 0.1598639455782313,
+    "framing": "Retrospective classification on teaching data; no prospective horizon is established."
+  },
+  "trials": [
+    {
+      "cycle": 1,
+      "spec": {
+        "family": "logistic",
+        "C": 0.1,
+        "threshold": 0.5,
+        "rationale": "Start with a regularized, class-balanced linear benchmark.",
+        "planner_mode": "rules",
+        "planner_error": null
+      },
+      "metrics": {
+        "average_precision": 0.3699979527727021,
+        "roc_auc": 0.7313004278289832,
+        "f1": 0.3855932203389831,
+        "precision": 0.27492447129909364,
+        "recall": 0.6453900709219859,
+        "accuracy": 0.671201814058957,
+        "prevalence": 0.1598639455782313,
+        "rows": 882,
+        "threshold": 0.5
+      },
+      "status": "succeeded",
+      "verdict": {
+        "action": "revise",
+        "reason": "revise",
+        "metric": "validation average precision",
+        "target": 0.4
+      }
+    },
+    {
+      "cycle": 2,
+      "spec": {
+        "family": "forest",
+        "depth": 4,
+        "threshold": 0.5,
+        "rationale": "Compare nonlinear survey and work-history associations against the linear trial.",
+        "planner_mode": "rules",
+        "planner_error": null
+      },
+      "metrics": {
+        "average_precision": 0.40440917737373305,
+        "roc_auc": 0.7193269589686162,
+        "f1": 0.36036036036036034,
+        "precision": 0.3125,
+        "recall": 0.425531914893617,
+        "accuracy": 0.7585034013605442,
+        "prevalence": 0.1598639455782313,
+        "rows": 882,
+        "threshold": 0.5
+      },
+      "status": "succeeded",
+      "verdict": {
+        "action": "finalize",
+        "reason": "validation_goal",
+        "metric": "validation average precision",
+        "target": 0.4
+      }
+    }
+  ],
+  "best_validation_trial": {
+    "cycle": 2,
+    "spec": {
+      "family": "forest",
+      "depth": 4,
+      "threshold": 0.5,
+      "rationale": "Compare nonlinear survey and work-history associations against the linear trial.",
+      "planner_mode": "rules",
+      "planner_error": null
+    },
+    "metrics": {
+      "average_precision": 0.40440917737373305,
+      "roc_auc": 0.7193269589686162,
+      "f1": 0.36036036036036034,
+      "precision": 0.3125,
+      "recall": 0.425531914893617,
+      "accuracy": 0.7585034013605442,
+      "prevalence": 0.1598639455782313,
+      "rows": 882,
+      "threshold": 0.5
+    },
+    "status": "succeeded"
+  },
+  "test_metrics": {
+    "average_precision": 0.2710402434451288,
+    "roc_auc": 0.6132444814660557,
+    "f1": 0.29721362229102166,
+    "precision": 0.2727272727272727,
+    "recall": 0.32653061224489793,
+    "accuracy": 0.7426303854875284,
+    "prevalence": 0.16666666666666666,
+    "rows": 882,
+    "threshold": 0.5
+  },
+  "stop_reason": "validation_goal",
+  "test_policy": "One final evaluation per run; never supplied to planner/judge.",
+  "interpretation": [
+    "Patterns describe this teaching dataset; they do not establish causes of resignation.",
+    "The source has no reliable prediction snapshot or future outcome window; this is retrospective classification.",
+    "Repeated HR profiles stay in the same split. Small, repeated teaching data limits generalization.",
+    "Age, gender and marital status are audit-only; excluding them does not establish fairness.",
+    "Use aggregate findings to form follow-up questions, not individual employment decisions.",
+    "Attrition share in this snapshot is not an annual attrition rate; no currency or observation dates are assumed."
+  ]
+}

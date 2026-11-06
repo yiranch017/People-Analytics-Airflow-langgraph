@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+data/raw/*
+!data/raw/.gitkeep
+artifacts/*
+!artifacts/.gitkeep
+evidence/*
+!evidence/.gitkeep
+!evidence/*.png
+!evidence/evaluation-results.json
