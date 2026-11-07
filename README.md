@@ -82,7 +82,3 @@ docker compose exec scheduler python -m bonus.evaluate --repeats 3
 ```
 
 Behavioral evaluations use development data only. Live LLM mode remains optional and unverified without your key. The benchmark documents its controlled faults, baseline adapters and limitations.
-
-## How this demonstrates the week's learning
-
-In Part 1, I used an Airflow DAG to make task dependencies explicit, run independent cleaning steps in parallel, retry failed tasks, and load validated results into PostgreSQL for downstream analysis. In Part 2, I represented a bounded workflow with LangGraph nodes, shared state, and conditional transitions. The bonus compares workflow behavior with declared scenarios and separately reports predictive metrics; it does not assume that more orchestration improves model quality. The detailed [walkthrough](WALKTHROUGH.md) explains my design choices and limitations, and I will review the code and results and follow the course's AI-use attribution requirements before submission.
