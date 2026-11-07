@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/Kedar-V/automl-research-lab",
+  "commit": "a294145ea9aa4225908ce701c06160c33213335d",
+  "files": {
+    "graph.py": "solution/langgraph/graph.py",
+    "loop_runtime.py": "loop_runtime.py"
+  }
+}

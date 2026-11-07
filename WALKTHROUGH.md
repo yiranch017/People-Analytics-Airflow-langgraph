@@ -124,7 +124,7 @@ Capture the following from real successful executions, not illustrative diagrams
 - Validation trials and final test evaluation results.
 - Optional: overview dashboard to explain the business question.
 
-Place screenshots in `evidence/` and explicitly add chosen images to Git, because generated artifacts are ignored by default. The repository should include the DAG, agent code, Docker setup, tests and README. The raw data is downloaded on first execution. Review the code and results so you can explain the work, then follow your course's AI-use attribution rules. Part 3 adaptive multi-agent bonus/evaluation suite is not claimed here.
+Place screenshots in `evidence/` and explicitly add chosen images to Git, because generated artifacts are ignored by default. The repository should include the DAG, agent code, Docker setup, tests and README. The raw data is downloaded on first execution. Review the code and results so you can explain the work, then follow your course's AI-use attribution rules. Part 3 is now implemented separately; see BONUS.md and BONUS_RESULTS.md for its scope and evidence.
 
 ## Interview practice
 

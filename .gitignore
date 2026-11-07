@@ -10,3 +10,4 @@ evidence/*
 !evidence/.gitkeep
 !evidence/*.png
 !evidence/evaluation-results.json
+!evidence/bonus-*.json

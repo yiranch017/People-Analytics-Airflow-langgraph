@@ -13,9 +13,9 @@ st.caption('HR records + employee listening + manager surveys · Week 11 orchest
 st.info('Teaching-data case study: retrospective attrition classification. Results are associations, not causes or employment recommendations.')
 
 
-def graph_dot(graph, active=None):
+def graph_dot(graph, active=None, direction='LR'):
     raw = graph.get_graph()
-    lines = ['digraph G { rankdir=LR; bgcolor="transparent"; node [shape=box, style="rounded,filled", fillcolor="#eaf2f8", fontname="Arial"];']
+    lines = [f'digraph G {{ rankdir={direction}; bgcolor="transparent"; node [shape=box, style="rounded,filled", fillcolor="#eaf2f8", fontname="Arial"];']
     for name in raw.nodes:
         color = '#99e2b4' if name == active else '#eaf2f8'
         lines.append(f'"{name}" [label="{name.replace("_", " ")}", fillcolor="{color}"];')
@@ -25,7 +25,7 @@ def graph_dot(graph, active=None):
     return '\n'.join(lines) + '\n}'
 
 
-overview, agents, learning = st.tabs(['People insights', 'Live agent workflow', 'Explain this project'])
+overview, agents, bonus, learning = st.tabs(['People insights', 'Live agent workflow', 'Bonus: adaptive evaluation', 'Explain this project'])
 with overview:
     try:
         df = read_database()
@@ -90,6 +90,75 @@ with agents:
         for item in result['interpretation']:
             st.write('• ' + item)
         st.download_button('Download evaluation results', result_path.read_text(), 'agent_results.json', 'application/json')
+
+with bonus:
+    from bonus.adaptive import build_graph as build_bonus_graph
+    from bonus.engine import Experiment
+    from bonus.evaluate import CASES, scenario, assess, run_benchmark
+    from hr_pipeline.modeling import split_data
+    st.subheader('Part 3: adaptive coordination')
+    st.write('The supervisor selects data repair, experiment planning, threshold adjustment, configuration repair, retry, or termination from intermediate evidence.')
+    st.caption('Default: rules mode. Fault scenarios are controlled simulations on development data, not new observations about employees. This tab never scores the reserved test set.')
+    selected_case = st.selectbox('Choose a behavior to demonstrate', [c['id'] for c in CASES])
+    rubric = next(c for c in CASES if c['id'] == selected_case)
+    st.write('**Input:** ' + rubric['input'])
+    st.write('**Expected:** ' + rubric['expected_status'] + ' · ' + rubric['scoring'])
+    st.write('**Pass threshold:** ' + rubric['threshold'])
+    live_llm = st.checkbox('Use optional LLM experiment planner', value=False,
+                disabled=not (os.getenv('OPENROUTER_API_KEY') and os.getenv('OPENROUTER_MODEL')))
+    parts = scenario(split_data(df), selected_case, 100) if df is not None else None
+    fault = selected_case if selected_case in {'invalid_spec', 'transient_failure', 'always_fail', 'plateau', 'low_recall'} else None
+    experiment = Experiment(parts, fault=fault) if parts is not None else None
+    graph = build_bonus_graph(experiment, live_llm=live_llm)
+    canvas = st.empty()
+    canvas.graphviz_chart(graph_dot(graph, direction='TB'), use_container_width=True)
+    if st.button('Run adaptive scenario', disabled=parts is None):
+        with st.status('Following the adaptive graph…', expanded=True) as status:
+            try:
+                result = None
+                for update in graph.stream({}, {'recursion_limit': 70}, stream_mode='updates'):
+                    for node, values in update.items():
+                        canvas.graphviz_chart(graph_dot(graph, node, direction='TB'), use_container_width=True)
+                        st.write(node + ': ' + str(values.get('reason', values.get('error', 'completed'))))
+                        result = values.get('result', result)
+                st.session_state['bonus_demo'] = {'case': selected_case, 'result': result, 'contract': assess(rubric, result)}
+                status.update(label='Adaptive scenario complete', state='complete')
+            except Exception as exc:
+                status.update(label='Scenario failed', state='error')
+                st.exception(exc)
+    if 'bonus_demo' in st.session_state:
+        demo = st.session_state['bonus_demo']
+        st.subheader('Observed execution trace: ' + demo['case'])
+        st.dataframe(pd.DataFrame(demo['result']['trace']), use_container_width=True)
+        st.json({'status': demo['result']['status'], 'stop_reason': demo['result']['stop_reason'],
+                 'training_attempts': demo['result']['training_attempts'], 'test_calls': demo['result']['test_calls'],
+                 'contract': demo['contract']})
+    st.subheader('Three-system comparison')
+    st.caption('Fixed Airflow policy versus the pinned instructor graph adapted to HR splits and AP selection versus the adaptive supervisor. Baselines use the same safety gate and preprocessing. Fixed policy trains one configuration; agent systems can train up to three.')
+    if st.button('Run development-data evaluation', disabled=df is None):
+        with st.spinner('Evaluating 12 cases across three systems; no holdout scoring…'):
+            run_benchmark(repeats=1, final=False)
+        st.success('Evaluation complete')
+    suite_path = ARTIFACTS / 'bonus' / 'suite.json'
+    if suite_path.exists():
+        suite = json.loads(suite_path.read_text())
+        st.caption(f"{len(suite['cases'])} cases × {suite['repeats']} repeats × 3 systems · {suite['mode']}")
+        st.dataframe(pd.DataFrame(suite['summary']), use_container_width=True)
+        st.caption('Task contracts are common to all systems. Specialist-routing contracts apply only to the adaptive design; baseline coordination scores are not assigned.')
+        detail = pd.DataFrame([{'case': r['case'], 'repeat': r['repeat'], 'system': r['system'],
+                              'status': r['status'], 'task_pass': r['task_pass'],
+                              'coordination_pass': r['coordination_pass'], 'attempts': r['training_attempts'],
+                              'stop_reason': r['stop_reason']} for r in suite['runs']])
+        st.dataframe(detail, use_container_width=True, height=380)
+        st.download_button('Download behavioral evaluation', suite_path.read_text(), 'bonus-suite.json', 'application/json')
+    comparison_path = ARTIFACTS / 'bonus' / 'comparison.json'
+    if comparison_path.exists():
+        comparison = json.loads(comparison_path.read_text())
+        st.subheader('Frozen clean-data model comparison')
+        st.dataframe(pd.DataFrame([{'system': r['system'], 'trials': len(r['trials']),
+                                  **(r['test_metrics'] or {})} for r in comparison['results']]), use_container_width=True)
+        for limitation in comparison['limitations']:
+            st.caption(limitation)
 
 with learning:
     st.subheader('Airflow coordinates recurring work')

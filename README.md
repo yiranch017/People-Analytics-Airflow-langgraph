@@ -69,6 +69,16 @@ The 4,410 records contain only **1,470 distinct profiles across non-missing gene
 
 All eight Airflow tasks succeeded, all three integrity tests passed, and the live dashboard run completed. The selected forest achieved **test average precision 0.271, recall 0.327 and F1 0.297**. Results are modest. The naive validation baseline achieved about 84% accuracy with zero recall, demonstrating why accuracy alone is insufficient.
 
-See [verified results and screenshots](RESULTS.md) and the [detailed walkthrough](WALKTHROUGH.md). Findings describe associations in a teaching snapshot. They do not establish causal retention drivers, an annual attrition rate, a future prediction window, or readiness for individual employment decisions. Optional Part 3 bonus work is not claimed.
+See [verified results and screenshots](RESULTS.md) and the [detailed walkthrough](WALKTHROUGH.md). Findings describe associations in a teaching snapshot. They do not establish causal retention drivers, an annual attrition rate, a future prediction window, or readiness for individual employment decisions.
+
+## Part 3 bonus: adaptive coordination and evaluation
+
+The [bonus extension](BONUS.md) adds an adaptive supervisor, data/configuration repair specialists, targeted retries, plateau termination, 12 explicit evaluation scenarios and a comparison against a fixed Airflow policy and the instructor's pinned simple graph. Open **Bonus: adaptive evaluation** in the dashboard or run the manual `people_analytics_bonus` DAG. See [measured bonus results](BONUS_RESULTS.md).
+
+```bash
+docker compose exec scheduler python -m bonus.evaluate --repeats 3
+```
+
+Behavioral evaluations use development data only. Live LLM mode remains optional and unverified without your key. The benchmark documents its controlled faults, baseline adapters and limitations.
 
 Review the code and results before submission, and follow your course's AI-use attribution requirements.

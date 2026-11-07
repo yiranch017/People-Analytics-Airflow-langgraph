@@ -1,0 +1,501 @@
+{
+  "created_utc": "2026-11-07T21:04:46.086403+00:00",
+  "results": [
+    {
+      "system": "fixed_airflow",
+      "status": "succeeded",
+      "stop_reason": "fixed_steps_complete",
+      "best": {
+        "spec": {
+          "family": "logistic",
+          "C": 0.25,
+          "threshold": 0.5
+        },
+        "metrics": {
+          "average_precision": 0.3716098204129975,
+          "roc_auc": 0.7309462964558149,
+          "f1": 0.386411889596603,
+          "precision": 0.27575757575757576,
+          "recall": 0.6453900709219859,
+          "accuracy": 0.6723356009070295,
+          "prevalence": 0.1598639455782313,
+          "rows": 882,
+          "threshold": 0.5
+        },
+        "attempt": 1,
+        "numeric_income": true,
+        "injected_constant_predictor": false
+      },
+      "trials": [
+        {
+          "spec": {
+            "family": "logistic",
+            "C": 0.25,
+            "threshold": 0.5
+          },
+          "metrics": {
+            "average_precision": 0.3716098204129975,
+            "roc_auc": 0.7309462964558149,
+            "f1": 0.386411889596603,
+            "precision": 0.27575757575757576,
+            "recall": 0.6453900709219859,
+            "accuracy": 0.6723356009070295,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          },
+          "attempt": 1,
+          "numeric_income": true,
+          "injected_constant_predictor": false
+        }
+      ],
+      "trace": [
+        {
+          "sequence": 1,
+          "node": "quality",
+          "reason": "shared_safety_gate"
+        },
+        {
+          "sequence": 2,
+          "node": "fixed_training_task",
+          "reason": "predefined_configuration",
+          "retry": 0
+        }
+      ],
+      "training_attempts": 1,
+      "training_failures": 0,
+      "test_calls": 1,
+      "test_metrics": {
+        "average_precision": 0.3071522883075805,
+        "roc_auc": 0.6912027395992411,
+        "f1": 0.42299794661190965,
+        "precision": 0.3029411764705882,
+        "recall": 0.7006802721088435,
+        "accuracy": 0.68140589569161,
+        "prevalence": 0.16666666666666666,
+        "rows": 882,
+        "threshold": 0.5
+      },
+      "elapsed_seconds": 2.1064,
+      "llm_calls": 0,
+      "mode": "rules",
+      "fault_injection": null
+    },
+    {
+      "system": "classroom_simple",
+      "status": "succeeded",
+      "stop_reason": "instructor_graph_finalized",
+      "best": {
+        "spec": {
+          "family": "logistic",
+          "C": 0.5,
+          "depth": 5,
+          "threshold": 0.5
+        },
+        "metrics": {
+          "average_precision": 0.3717892489056101,
+          "roc_auc": 0.7310037231649774,
+          "f1": 0.3939393939393939,
+          "precision": 0.2834890965732087,
+          "recall": 0.6453900709219859,
+          "accuracy": 0.6825396825396826,
+          "prevalence": 0.1598639455782313,
+          "rows": 882,
+          "threshold": 0.5
+        },
+        "attempt": 2,
+        "numeric_income": true,
+        "injected_constant_predictor": false
+      },
+      "trials": [
+        {
+          "spec": {
+            "family": "logistic",
+            "C": 0.25,
+            "depth": 5,
+            "threshold": 0.5
+          },
+          "metrics": {
+            "average_precision": 0.3716098204129975,
+            "roc_auc": 0.7309462964558149,
+            "f1": 0.386411889596603,
+            "precision": 0.27575757575757576,
+            "recall": 0.6453900709219859,
+            "accuracy": 0.6723356009070295,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          },
+          "attempt": 1,
+          "numeric_income": true,
+          "injected_constant_predictor": false
+        },
+        {
+          "spec": {
+            "family": "logistic",
+            "C": 0.5,
+            "depth": 5,
+            "threshold": 0.5
+          },
+          "metrics": {
+            "average_precision": 0.3717892489056101,
+            "roc_auc": 0.7310037231649774,
+            "f1": 0.3939393939393939,
+            "precision": 0.2834890965732087,
+            "recall": 0.6453900709219859,
+            "accuracy": 0.6825396825396826,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          },
+          "attempt": 2,
+          "numeric_income": true,
+          "injected_constant_predictor": false
+        },
+        {
+          "spec": {
+            "family": "logistic",
+            "C": 1.0,
+            "depth": 5,
+            "threshold": 0.5
+          },
+          "metrics": {
+            "average_precision": 0.36814639392727744,
+            "roc_auc": 0.7312525722380145,
+            "f1": 0.3939393939393939,
+            "precision": 0.2834890965732087,
+            "recall": 0.6453900709219859,
+            "accuracy": 0.6825396825396826,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          },
+          "attempt": 3,
+          "numeric_income": true,
+          "injected_constant_predictor": false
+        }
+      ],
+      "trace": [
+        {
+          "sequence": 1,
+          "node": "quality",
+          "reason": "shared_safety_gate"
+        },
+        {
+          "sequence": 2,
+          "node": "data_scientist",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 3,
+          "node": "hypothesis_generator",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 4,
+          "node": "ml_engineer",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 5,
+          "node": "judge",
+          "reason": "instructor_graph_node",
+          "action": "revise"
+        },
+        {
+          "sequence": 6,
+          "node": "memory_writer",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 7,
+          "node": "context_builder",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 8,
+          "node": "hypothesis_generator",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 9,
+          "node": "ml_engineer",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 10,
+          "node": "judge",
+          "reason": "instructor_graph_node",
+          "action": "revise"
+        },
+        {
+          "sequence": 11,
+          "node": "memory_writer",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 12,
+          "node": "context_builder",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 13,
+          "node": "hypothesis_generator",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 14,
+          "node": "ml_engineer",
+          "reason": "instructor_graph_node",
+          "action": null
+        },
+        {
+          "sequence": 15,
+          "node": "judge",
+          "reason": "instructor_graph_node",
+          "action": "revise"
+        },
+        {
+          "sequence": 16,
+          "node": "holdout_eval",
+          "reason": "instructor_graph_node",
+          "action": null
+        }
+      ],
+      "training_attempts": 3,
+      "training_failures": 0,
+      "test_calls": 1,
+      "test_metrics": {
+        "average_precision": 0.3074014772546336,
+        "roc_auc": 0.6895552778934702,
+        "f1": 0.4158004158004158,
+        "precision": 0.2994011976047904,
+        "recall": 0.6802721088435374,
+        "accuracy": 0.68140589569161,
+        "prevalence": 0.16666666666666666,
+        "rows": 882,
+        "threshold": 0.5
+      },
+      "elapsed_seconds": 7.8315,
+      "llm_calls": 0,
+      "mode": "rules",
+      "fault_injection": null,
+      "reference_commit": "a294145ea9aa4225908ce701c06160c33213335d"
+    },
+    {
+      "system": "adaptive",
+      "status": "succeeded",
+      "stop_reason": "validation_goal",
+      "best": {
+        "spec": {
+          "family": "forest",
+          "depth": 5,
+          "threshold": 0.5
+        },
+        "metrics": {
+          "average_precision": 0.400447372776057,
+          "roc_auc": 0.7277878274518813,
+          "f1": 0.42424242424242425,
+          "precision": 0.40384615384615385,
+          "recall": 0.44680851063829785,
+          "accuracy": 0.8061224489795918,
+          "prevalence": 0.1598639455782313,
+          "rows": 882,
+          "threshold": 0.5
+        },
+        "attempt": 2,
+        "numeric_income": true,
+        "injected_constant_predictor": false
+      },
+      "trials": [
+        {
+          "spec": {
+            "family": "logistic",
+            "C": 0.25,
+            "threshold": 0.5
+          },
+          "metrics": {
+            "average_precision": 0.3716098204129975,
+            "roc_auc": 0.7309462964558149,
+            "f1": 0.386411889596603,
+            "precision": 0.27575757575757576,
+            "recall": 0.6453900709219859,
+            "accuracy": 0.6723356009070295,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          },
+          "attempt": 1,
+          "numeric_income": true,
+          "injected_constant_predictor": false
+        },
+        {
+          "spec": {
+            "family": "forest",
+            "depth": 5,
+            "threshold": 0.5
+          },
+          "metrics": {
+            "average_precision": 0.400447372776057,
+            "roc_auc": 0.7277878274518813,
+            "f1": 0.42424242424242425,
+            "precision": 0.40384615384615385,
+            "recall": 0.44680851063829785,
+            "accuracy": 0.8061224489795918,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          },
+          "attempt": 2,
+          "numeric_income": true,
+          "injected_constant_predictor": false
+        }
+      ],
+      "trace": [
+        {
+          "sequence": 1,
+          "node": "quality",
+          "reason": "survey_missingness",
+          "missingness_handled": false
+        },
+        {
+          "sequence": 2,
+          "node": "supervisor",
+          "reason": "survey_missingness",
+          "destination": "data_repair"
+        },
+        {
+          "sequence": 3,
+          "node": "data_repair",
+          "reason": "survey_missingness",
+          "strategy": "numeric_schema_or_training_only_imputation"
+        },
+        {
+          "sequence": 4,
+          "node": "supervisor",
+          "reason": "next_bounded_experiment",
+          "destination": "planner"
+        },
+        {
+          "sequence": 5,
+          "node": "planner",
+          "reason": "validation_history_only",
+          "spec": {
+            "family": "logistic",
+            "C": 0.25,
+            "threshold": 0.5
+          }
+        },
+        {
+          "sequence": 6,
+          "node": "training",
+          "reason": "succeeded",
+          "attempt": 1
+        },
+        {
+          "sequence": 7,
+          "node": "evaluate",
+          "reason": "improved",
+          "metrics": {
+            "average_precision": 0.3716098204129975,
+            "roc_auc": 0.7309462964558149,
+            "f1": 0.386411889596603,
+            "precision": 0.27575757575757576,
+            "recall": 0.6453900709219859,
+            "accuracy": 0.6723356009070295,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          }
+        },
+        {
+          "sequence": 8,
+          "node": "supervisor",
+          "reason": "next_bounded_experiment",
+          "destination": "planner"
+        },
+        {
+          "sequence": 9,
+          "node": "planner",
+          "reason": "validation_history_only",
+          "spec": {
+            "family": "forest",
+            "depth": 5,
+            "threshold": 0.5
+          }
+        },
+        {
+          "sequence": 10,
+          "node": "training",
+          "reason": "succeeded",
+          "attempt": 2
+        },
+        {
+          "sequence": 11,
+          "node": "evaluate",
+          "reason": "improved",
+          "metrics": {
+            "average_precision": 0.400447372776057,
+            "roc_auc": 0.7277878274518813,
+            "f1": 0.42424242424242425,
+            "precision": 0.40384615384615385,
+            "recall": 0.44680851063829785,
+            "accuracy": 0.8061224489795918,
+            "prevalence": 0.1598639455782313,
+            "rows": 882,
+            "threshold": 0.5
+          }
+        },
+        {
+          "sequence": 12,
+          "node": "supervisor",
+          "reason": "validation_goal",
+          "destination": "finalize"
+        },
+        {
+          "sequence": 13,
+          "node": "finalize",
+          "reason": "validation_goal"
+        }
+      ],
+      "training_attempts": 2,
+      "training_failures": 0,
+      "test_calls": 1,
+      "test_metrics": {
+        "average_precision": 0.2844154910555753,
+        "roc_auc": 0.6267758804201953,
+        "f1": 0.2857142857142857,
+        "precision": 0.26785714285714285,
+        "recall": 0.30612244897959184,
+        "accuracy": 0.7448979591836735,
+        "prevalence": 0.16666666666666666,
+        "rows": 882,
+        "threshold": 0.5
+      },
+      "elapsed_seconds": 1.9716,
+      "llm_calls": 0,
+      "mode": "rules",
+      "fault_injection": null,
+      "repairs": 0,
+      "retries": 0
+    }
+  ],
+  "policy": "One clean held-out evaluation per system. Shared partitions and preprocessing. No test scores go back to agents.",
+  "limitations": [
+    "Fixed baseline has one successful trial; agent systems have up to three. Performance differences combine search budget and routing effects.",
+    "AP selection replaces classroom F1 selection for a matched metric; original graph and fallback roles remain.",
+    "Timed comparisons include Python orchestration and reference-module initialization, not Airflow scheduling/queue latency.",
+    "The holdout was already used in the original assignment. This extension is exploratory, not a fresh independent confirmation.",
+    "No live-LLM effectiveness or cost claim is established by rules-mode results."
+  ]
+}
