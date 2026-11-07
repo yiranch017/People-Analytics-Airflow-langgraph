@@ -1,8 +1,10 @@
-# People Analytics Lab — Week 11
+# Week 11 Data Engineering Assignment: People Analytics Lab
 
-**Question:** How do employee survey responses and work-history characteristics relate to observed attrition, and can a model distinguish attrition labels better than a naive benchmark?
+This is my Week 11 data-engineering course project. I chose employee data as the practice domain because it is a subject I am interested in; the project focuses on the course concepts of orchestration, data quality, database loading, and workflow evaluation.
 
-This project implements an original scheduled Airflow pipeline and HR-specific LangGraph loop. It practices skills relevant to people analytics: joining HR systems, employee listening, data quality, model evaluation and careful interpretation. It is a teaching case, not an analysis of any actual employer or a validated prospective attrition model.
+**Analysis question:** How do employee survey responses and work-history characteristics relate to the attrition labels in this teaching dataset, and can a model distinguish those labels better than a naive benchmark?
+
+I built an original scheduled Airflow pipeline and employee-data LangGraph workflow, using the classroom demo as a starting point for the orchestration concepts. This is a public teaching-data exercise, not an analysis of an actual employer or a validated prospective attrition model.
 
 ## Run the project
 
@@ -14,7 +16,7 @@ docker compose up --build -d
 
 1. Open **Airflow:** http://localhost:8090. Login: `student` / `classroom`.
 2. Unpause `people_analytics_daily`, trigger a run, and watch its Graph view.
-3. Once successful, open **People Analytics Lab:** http://localhost:8502.
+3. Once successful, open the **People Analytics Lab dashboard:** http://localhost:8502.
 4. View HR charts and model results. In **Live agent workflow**, use **Run HR research loop** to watch the graph execute.
 
 ```bash
@@ -59,7 +61,7 @@ Database → HR quality agent → Retention hypothesis → Training → Validati
                                             Reserved test → People Partner report
 ```
 
-This original graph adds an HR-specific quality gate and People Partner report, uses validation **average precision** for model selection, preserves experiment history, and enforces a three-trial limit. It finalizes after at least two trials when validation average precision reaches 0.40, or when the budget expires. The UI renders the actual compiled graph and highlights execution.
+This original graph adds an employee-data quality gate and an interpretation report, uses validation **average precision** for model selection, preserves experiment history, and enforces a three-trial limit. It finalizes after at least two trials when validation average precision reaches 0.40, or when the budget expires. The UI renders the actual compiled graph and highlights execution.
 
 Default **rules mode** runs without an API key and is labeled explicitly. Optional LLM experiment planning is implemented: copy `.env.example` to `.env`, set `OPENROUTER_API_KEY` and `OPENROUTER_MODEL`, then recreate services. Only aggregate validation history is sent; proposed settings are bounded and validated. Live LLM mode requires your key and has not been tested by the rules-mode verification.
 
@@ -81,4 +83,6 @@ docker compose exec scheduler python -m bonus.evaluate --repeats 3
 
 Behavioral evaluations use development data only. Live LLM mode remains optional and unverified without your key. The benchmark documents its controlled faults, baseline adapters and limitations.
 
-Review the code and results before submission, and follow your course's AI-use attribution requirements.
+## How this demonstrates the week's learning
+
+In Part 1, I used an Airflow DAG to make task dependencies explicit, run independent cleaning steps in parallel, retry failed tasks, and load validated results into PostgreSQL for downstream analysis. In Part 2, I represented a bounded workflow with LangGraph nodes, shared state, and conditional transitions. The bonus compares workflow behavior with declared scenarios and separately reports predictive metrics; it does not assume that more orchestration improves model quality. The detailed [walkthrough](WALKTHROUGH.md) explains my design choices and limitations, and I will review the code and results and follow the course's AI-use attribution requirements before submission.

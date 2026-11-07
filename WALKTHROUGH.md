@@ -1,8 +1,8 @@
-# People Analytics Lab — Week 11
+# Week 11 Data Engineering Assignment: People Analytics Lab
 
-An original HR data pipeline and bounded research loop, inspired by the classroom Airflow/LangGraph demo. Business question: **How do employee survey responses and work-history characteristics relate to observed attrition, and can a model distinguish the source's attrition labels better than a naive benchmark?**
+For this assignment, I built an original employee-data pipeline and bounded research loop, applying the orchestration ideas from this week's Airflow/LangGraph demo. The employee-data theme is a way to practice data engineering with a subject I am interested in. My analysis question is: **How do survey responses and work-history characteristics relate to the attrition labels in this teaching dataset, and can a model distinguish those labels better than a naive benchmark?**
 
-This is a teaching case, not an analysis of Robinhood or a validated system for future employee attrition. The source does not establish a reliable prediction snapshot or future outcome window. Findings are associations and questions for follow-up, not causal effects of HR interventions.
+This is a course exercise using a public teaching dataset, not an analysis of any employer or a validated system for predicting future employee attrition. The source does not establish a reliable prediction snapshot or future outcome window. Findings are associations and questions for follow-up, not causal effects of HR interventions.
 
 ## Run
 
@@ -126,15 +126,12 @@ Capture the following from real successful executions, not illustrative diagrams
 
 Place screenshots in `evidence/` and explicitly add chosen images to Git, because generated artifacts are ignored by default. The repository should include the DAG, agent code, Docker setup, tests and README. The raw data is downloaded on first execution. Review the code and results so you can explain the work, then follow your course's AI-use attribution rules. Part 3 is now implemented separately; see BONUS.md and BONUS_RESULTS.md for its scope and evidence.
 
-## Interview practice
+## Learning reflection for the course grader
 
-This is a relevant learning example for the PeopleX Insights & Analytics preparation discussed in the resume workspace. Practice explaining:
+In this project, I applied the week's orchestration concepts by defining the pipeline as an Airflow DAG, expressing task dependencies explicitly, and allowing independent source-cleaning tasks to run in parallel. I used retries for transient task failures, validation checks to fail on unsafe inputs, and PostgreSQL as a durable handoff between ingestion and downstream analysis. The daily schedule demonstrates how Airflow can coordinate repeatable work; because these source files are static, it does not represent genuinely new daily data.
 
-1. What is one row, and how do the joins avoid multiplying employee counts?
-2. Why is snapshot attrition share different from annual attrition rate?
-3. How did repeated profiles change model validation?
-4. Why might low survey satisfaction be associated with attrition without causing it?
-5. What would you need for a prospective model? Effective-dated HR snapshots, a defined prediction date, a future outcome window, survey timestamps, and temporal validation.
-6. What would you recommend to a People Partner? Investigate patterns and data quality, establish the decision and timing, and design a follow-up evaluation; do not promise retention gains from this teaching model.
+For the second part, I used LangGraph to represent a bounded research workflow as nodes that read and update shared state. Conditional edges allow the workflow to revise a model proposal or stop when its stated conditions are met. The graph is visible in the dashboard, and the run history makes its decisions inspectable. In the default configuration, this is rules-based orchestration; I do not present it as autonomous LLM reasoning.
 
-The project practices data engineering, employee listening and clear interpretation. It is not evidence of production HR-system ownership or business impact.
+The evaluation also taught me to distinguish workflow behavior from model quality. The bonus tests compare declared behaviors across fixed Airflow, the classroom graph, and my adaptive graph. The adaptive graph met the specified routing contracts, but its clean-data predictive metrics were lower than the fixed and classroom systems. That result means the added coordination rules improved performance on these defined workflow checks, not that they improved attrition prediction. The test set had also been examined in the original assignment, so I treat the comparison as exploratory.
+
+The main limitations are the dataset's repeated profiles, unknown publisher license, lack of time-stamped snapshots and future outcome window, and the possibility that survey or demographic proxies encode sensitive information. Group-based splitting reduces one form of leakage but does not establish identities, fairness, causality, or suitability for employment decisions. I would need licensed, time-indexed data and an out-of-time evaluation to study a prospective question responsibly. For this assignment, the result is a reproducible demonstration of ingestion, validation, orchestration, database loading, analysis, and bounded workflow evaluation—not a production HR decision system.
